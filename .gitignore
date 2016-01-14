@@ -4,6 +4,11 @@
 *.o
 *.obj
 
+*.tlog
+*.idb
+*.ipch
+*.lastbuildstate
+
 # Precompiled Headers
 *.gch
 *.pch
