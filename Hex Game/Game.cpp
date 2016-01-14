@@ -8,6 +8,7 @@
 #include <algorithm> 
 #include <regex>
 #include <thread>
+#include <stdlib.h>
 
 using namespace std;
 using namespace eku;
@@ -39,6 +40,7 @@ void Game::Update()
 {
 
 	WaitForInput();
+	system("cls");
 	makeTurn();
 	board->DrawBoard();
 
