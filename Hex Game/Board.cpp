@@ -103,7 +103,7 @@ bool Board::AddPoint(string &input, int &playerNumber)
 		return true;
 	}
 	else
-		cout << "POINT IS OUT OF RANGE! Point: " << input[0] << number << " = " << board[letter][number] << endl;
+		cout << "POINT IS OUT OF RANGE! Point: " << input[0] << number << endl;
 	return false;
 }
 
