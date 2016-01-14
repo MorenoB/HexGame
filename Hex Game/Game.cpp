@@ -74,6 +74,8 @@ void Game::WaitForInput()
 
 		if (!isValidInput(input))
 		{
+			system("cls");
+			board->DrawBoard();
 			cout << "Not a valid input. ('" << input << "')" << endl;
 			WaitForInput();
 		}
