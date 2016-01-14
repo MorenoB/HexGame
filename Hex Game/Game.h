@@ -18,6 +18,7 @@ private:
 	void deleteTurn();
 	void doPierule();
 	void randomAI();
+	void RedrawBoard();
 	void WaitForInput();
 	bool isValidInput(std::string &input);
 	void Update();

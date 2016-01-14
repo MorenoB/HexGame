@@ -74,8 +74,7 @@ void Game::WaitForInput()
 
 		if (!isValidInput(input))
 		{
-			system("cls");
-			board->DrawBoard();
+			RedrawBoard();
 			cout << "Not a valid input. ('" << input << "')" << endl;
 			WaitForInput();
 		}
@@ -135,7 +134,10 @@ void Game::doTurn(string location)
 	if (board->AddPoint(location, currentPlayer))
 		return;
 	else
+	{
 		cout << "UNABLE TO ADD POINT" << endl;
+		RedrawBoard();
+	}
 	WaitForInput();
 	makeTurn();
 }
@@ -144,6 +146,12 @@ void Game::doPierule()
 {
 	cout << "Player " << currentPlayer << " executed the pie rule!" << endl;
 	board->pieRule();
+}
+
+void Game::RedrawBoard()
+{
+	system("cls");
+	board->DrawBoard();
 }
 
 /*

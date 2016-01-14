@@ -20,7 +20,6 @@ private:
 	int pseudoBottom = 0;
 
 	int player = 1;
-
 	void PrepareBoard();
 	bool isConnected(int playerNumber, int x, int y);
 
