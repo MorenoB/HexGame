@@ -8,6 +8,8 @@ public:
 private:
 	int currentPlayer = 1;
 	int turnCounter = 1;
+	enum PlayerType { HUMAN , AI };
+	PlayerType playerType = HUMAN;
 	std::string currentInput;
 	Board* board;
 	std::vector<std::string> playerMoves1;

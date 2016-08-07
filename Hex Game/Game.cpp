@@ -44,10 +44,8 @@ void Game::Update()
 	makeTurn();
 	board->DrawBoard();
 
-	if (currentPlayer == 1)
-		currentPlayer = 2;
-	else
-		currentPlayer = 1;
+	playerType = playerType == HUMAN ? AI : HUMAN;
+
 	turnCounter++;
 	Update();
 }
@@ -55,42 +53,45 @@ void Game::Update()
 void Game::WaitForInput()
 {
 	string input = "";
-	if (currentPlayer == 1)
+
+	//Don't need to wait for input for AI.
+	if (playerType == AI)
+		return;
+
+	if (turnCounter == 2)
 	{
-		if (turnCounter == 2)
-		{
-			cout << "Pie rule?" << endl;
-		}
-		cout << endl;
-		cout << endl << "Please give a valid input ";
-
-		settextcolor(blue);
-		cout << "Player " << currentPlayer << endl;
-		settextcolor(white);
-
-		cin >> input;
-
-
-
-		if (!isValidInput(input))
-		{
-			RedrawBoard();
-			cout << "Not a valid input. ('" << input << "')" << endl;
-			WaitForInput();
-		}
-
-		std::transform(input.begin(), input.end(), input.begin(), toupper);
-
-		//Check if the input is NUMBER+LETTER instead of LETTER+NUMBER, if so, flip them!
-		if (isdigit(input[0]))
-		{
-			char temp = input[0];
-			input[0] = input[1];
-			input[1] = temp;
-		}
-
-		currentInput = input;
+		cout << "Pie rule?" << endl;
 	}
+	cout << endl;
+	cout << endl << "Please give a valid input ";
+
+	settextcolor(blue);
+	cout << "Player " << currentPlayer << endl;
+	settextcolor(white);
+
+	cin >> input;
+
+
+
+	if (!isValidInput(input))
+	{
+		RedrawBoard();
+		cout << "Not a valid input. ('" << input << "')" << endl;
+		WaitForInput();
+	}
+
+	std::transform(input.begin(), input.end(), input.begin(), toupper);
+
+	//Check if the input is NUMBER+LETTER instead of LETTER+NUMBER, if so, flip them!
+	if (isdigit(input[0]))
+	{
+		char temp = input[0];
+		input[0] = input[1];
+		input[1] = temp;
+	}
+
+	currentInput = input;
+	
 	return;
 }
 
