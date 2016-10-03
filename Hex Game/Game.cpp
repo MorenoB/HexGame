@@ -111,7 +111,7 @@ IF NOT AI = Provides the player options what do to, for instance; do a turn, del
 IF AI = Calls the randomAI() method which will decide what to do.*/
 void Game::makeTurn()
 {
-	if (currentPlayer == 1)
+	if (playerType == AI)
 	{
 		if (currentInput == "DEL")
 			deleteTurn();
