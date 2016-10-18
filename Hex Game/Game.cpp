@@ -132,7 +132,7 @@ void Game::deleteTurn()
 Adds a point to the map with the given location.*/
 void Game::doTurn(string location)
 {
-	if (board->AddPoint(location, currentPlayer))
+	if (board->AddPoint(location, playerType))
 		return;
 	else
 	{
@@ -175,7 +175,7 @@ void Game::randomAI()
 		char input1 = "ABCDEFGHIJKLMNOP"[i1 - 1];
 		string input = input1 + to_string(i2);
 
-		if (board->AddPoint(input, currentPlayer))
+		if (board->AddPoint(input, playerType))
 		{
 			cout << "AI added point" << input << endl;
 			return;

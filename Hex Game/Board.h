@@ -1,13 +1,15 @@
 #pragma once
 #include <string>
 #include <vector>
+
+#include "Game.h"
 class Board
 {
 public:
 	Board();
 	~Board();
 	void DrawBoard();
-	bool AddPoint(std::string &input, int &playerNumber);
+	bool AddPoint(std::string &input, Game::PlayerType &playerType);
 	bool DeletePreviousPoint(int &playerNumber);
 	void pieRule();
 private:
@@ -19,7 +21,10 @@ private:
 	int pseudoTop = height - 1;
 	int pseudoBottom = 0;
 
-	int player = 1;
+	Game::PlayerType playerType = Game::PlayerType::HUMAN;
+
+	Game::PlayerType curPlayerType = Game::PlayerType::HUMAN;
+
 	void PrepareBoard();
 	bool isConnected(int playerNumber, int x, int y);
 

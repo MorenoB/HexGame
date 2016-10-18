@@ -5,13 +5,15 @@ class Game
 public:
 	Game();  // This is the constructor
 	void Start();
+	enum PlayerType { HUMAN, AI };
 private:
 	int currentPlayer = 1;
 	int turnCounter = 1;
-	enum PlayerType { HUMAN , AI };
+	
 	PlayerType playerType = HUMAN;
-	std::string currentInput;
 	Board* board;
+	std::string currentInput;
+
 	std::vector<std::string> playerMoves1;
 	std::vector<std::string> playerMoves2;
 

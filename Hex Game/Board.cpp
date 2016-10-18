@@ -68,13 +68,13 @@ void Board::DrawBoard()
 
 }
 
-bool Board::AddPoint(string &input, int &playerNumber)
+bool Board::AddPoint(string &input, Game::PlayerType &playerType)
 {
 	int letter = input[0] - 65;
 	int number = input[1] - '0';
-	player = playerNumber;
+	curPlayerType = playerType;
 
-	if (playerNumber == 1)
+	if (playerType == 1)
 		Player1Moves.push_back(input);
 	else
 		Player2Moves.push_back(input);
@@ -87,19 +87,19 @@ bool Board::AddPoint(string &input, int &playerNumber)
 	{
 		if (board[number][letter] != '.')
 		{
-			if (playerNumber != 2)
+			if (playerType != 2)
 			cout << "Please repick!" << endl;
 			return false;
 		}
-		if (playerNumber == 1)
+		if (playerType == 1)
 			board[number][letter] = 'x';
 		else
 			board[number][letter] = 'o';
 		cout << endl;
 		cout << endl << "Modified Point: " << input[0] << number << " to " << board[number][letter] << endl;
 		//if (number == pseudoTop || number == pseudoBottom || letter == pseudoLeft || letter == pseudoRight)
-		if (isConnected(player, number, letter))
-			cout << "CONNECTED PLAYER" << player << endl;
+		if (isConnected(curPlayerType, number, letter))
+			cout << "CONNECTED PLAYER" << curPlayerType << endl;
 		return true;
 	}
 	else
