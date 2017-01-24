@@ -1,3 +1,4 @@
+#pragma once
 #ifndef _INC_EKU_IO_CONCOL
 #define _INC_EKU_IO_CONCOL
 

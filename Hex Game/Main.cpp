@@ -6,15 +6,11 @@
 #include <conio.h> 
 #include "game.h"
 
-
-using namespace std;
-
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Game* newGame = new Game();
-	newGame->Start();
+	Game gameObject;
+	gameObject.Start();
 	_getch();
-	delete newGame;
 	return 0;
 
 }

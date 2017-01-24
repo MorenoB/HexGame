@@ -31,3 +31,9 @@
 *.exe
 *.out
 *.app
+
+*.opendb
+*.pdb
+
+/Debug
+/Hex Game/Debug
