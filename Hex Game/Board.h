@@ -2,14 +2,16 @@
 #include <string>
 #include <vector>
 
-#include "Game.h"
 class Board
 {
 public:
 	Board();
 	~Board();
+
+	enum PlayerType { HUMAN, AI };
+
 	void DrawBoard();
-	bool AddPoint(std::string &input, Game::PlayerType &playerType);
+	bool AddPoint(std::string &input, PlayerType &playerType);
 	bool DeletePreviousPoint(int &playerNumber);
 	void pieRule();
 private:
@@ -21,9 +23,9 @@ private:
 	int pseudoTop = height - 1;
 	int pseudoBottom = 0;
 
-	Game::PlayerType playerType = Game::PlayerType::HUMAN;
+	PlayerType playerType = PlayerType::HUMAN;
 
-	Game::PlayerType curPlayerType = Game::PlayerType::HUMAN;
+	PlayerType curPlayerType = PlayerType::HUMAN;
 
 	void PrepareBoard();
 	bool isConnected(int playerNumber, int x, int y);

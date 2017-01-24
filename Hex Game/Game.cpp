@@ -23,14 +23,9 @@ using namespace eku;
 
 
 // Member functions definitions including constructor
-Game::Game(void)
-{
-	board = new Board();
-}
-
 void Game::Start()
 {
-	board->DrawBoard();
+	board.DrawBoard();
 	Update();
 }
 
@@ -42,9 +37,9 @@ void Game::Update()
 	WaitForInput();
 	system("cls");
 	makeTurn();
-	board->DrawBoard();
+	board.DrawBoard();
 
-	playerType = playerType == HUMAN ? AI : HUMAN;
+	playerType = playerType == Board::PlayerType::HUMAN ? Board::PlayerType::AI : Board::PlayerType::HUMAN;
 
 	turnCounter++;
 	Update();
@@ -55,7 +50,7 @@ void Game::WaitForInput()
 	string input = "";
 
 	//Don't need to wait for input for AI.
-	if (playerType == AI)
+	if (playerType == Board::PlayerType::AI)
 		return;
 
 	if (turnCounter == 2)
@@ -111,7 +106,7 @@ IF NOT AI = Provides the player options what do to, for instance; do a turn, del
 IF AI = Calls the randomAI() method which will decide what to do.*/
 void Game::makeTurn()
 {
-	if (playerType == AI)
+	if (playerType == Board::PlayerType::AI)
 	{
 		if (currentInput == "DEL")
 			deleteTurn();
@@ -125,14 +120,14 @@ void Game::makeTurn()
 Deletes the previous added point of this player.*/
 void Game::deleteTurn()
 {
-	board->DeletePreviousPoint(currentPlayer);
+	board.DeletePreviousPoint(currentPlayer);
 }
 
 /* Communicates with board.cpp
 Adds a point to the map with the given location.*/
 void Game::doTurn(string location)
 {
-	if (board->AddPoint(location, playerType))
+	if (board.AddPoint(location, playerType))
 		return;
 	else
 	{
@@ -146,13 +141,13 @@ void Game::doTurn(string location)
 void Game::doPierule()
 {
 	cout << "Player " << currentPlayer << " executed the pie rule!" << endl;
-	board->pieRule();
+	board.pieRule();
 }
 
 void Game::RedrawBoard()
 {
 	system("cls");
-	board->DrawBoard();
+	board.DrawBoard();
 }
 
 /*
@@ -175,7 +170,7 @@ void Game::randomAI()
 		char input1 = "ABCDEFGHIJKLMNOP"[i1 - 1];
 		string input = input1 + to_string(i2);
 
-		if (board->AddPoint(input, playerType))
+		if (board.AddPoint(input, playerType))
 		{
 			cout << "AI added point" << input << endl;
 			return;

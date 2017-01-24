@@ -1,17 +1,19 @@
+#pragma once
 #include <string>
+#include <vector>
 #include "Board.h"
+
 class Game
 {
 public:
-	Game();  // This is the constructor
 	void Start();
-	enum PlayerType { HUMAN, AI };
+	
 private:
 	int currentPlayer = 1;
 	int turnCounter = 1;
 	
-	PlayerType playerType = HUMAN;
-	Board* board;
+	Board board;
+	Board::PlayerType playerType = Board::PlayerType::HUMAN;
 	std::string currentInput;
 
 	std::vector<std::string> playerMoves1;

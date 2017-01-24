@@ -68,7 +68,7 @@ void Board::DrawBoard()
 
 }
 
-bool Board::AddPoint(string &input, Game::PlayerType &playerType)
+bool Board::AddPoint(string &input, PlayerType &playerType)
 {
 	int letter = input[0] - 65;
 	int number = input[1] - '0';
