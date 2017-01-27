@@ -75,7 +75,7 @@ void Game::WaitForInput()
 		WaitForInput();
 	}
 
-	std::transform(input.begin(), input.end(), input.begin(), toupper);
+	std::transform(input.begin(), input.end(), input.begin(), ::toupper);
 
 	//Check if the input is NUMBER+LETTER instead of LETTER+NUMBER, if so, flip them!
 	if (isdigit(input[0]))
