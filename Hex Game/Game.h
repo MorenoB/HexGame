@@ -11,6 +11,7 @@ public:
 private:
 	int currentPlayer = 1;
 	int turnCounter = 1;
+	const int C_AI_MAXLOOPS = 500;
 	
 	Board board;
 	Board::PlayerType playerType = Board::PlayerType::HUMAN;

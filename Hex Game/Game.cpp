@@ -155,7 +155,8 @@ void Game::RedrawBoard()
 Contains all the randomAI decision making.*/
 void Game::randomAI()
 {
-	while (true)
+	int loopCounter = 0;
+	while (loopCounter < C_AI_MAXLOOPS)
 	{
 		if (turnCounter == 2)
 		{
@@ -176,5 +177,10 @@ void Game::randomAI()
 			cout << "AI added point" << input << endl;
 			return;
 		}
+
+		loopCounter++;
 	}
+
+	//We should not exit here!
+	cout << "AI was unable to pick a random point!" << endl;
 }
