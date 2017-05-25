@@ -73,6 +73,7 @@ void Game::WaitForInput()
 		RedrawBoard();
 		cout << "Not a valid input. ('" << input << "')" << endl;
 		WaitForInput();
+		return;
 	}
 
 	std::transform(input.begin(), input.end(), input.begin(), ::toupper);
