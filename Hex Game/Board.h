@@ -18,6 +18,7 @@ private:
 	char** board;
 	const static int height = 11;
 	const static int width = 11;
+	bool checkboard[width][height];
 	int pseudoLeft = 0;
 	int pseudoRight = width - 1;
 	int pseudoTop = height - 1;
@@ -28,8 +29,11 @@ private:
 	PlayerType curPlayerType = PlayerType::HUMAN;
 
 	void PrepareBoard();
-	bool isConnected(int playerNumber, int x, int y);
-
-	//vector< vector<int> > nodes;
+	void ClearCheckboard();
+	bool IsConnected(int playerNumber, int x, int y);
+	bool IsConnectedLeftToRight();
+	bool IsConnectedTopToDown();
+	bool RecursivelyCheckTopToDown(int x, int y);
+	bool RecursivelyCheckLeftToRight(int x, int y);
 };
 

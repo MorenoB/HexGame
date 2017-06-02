@@ -70,6 +70,9 @@ void Board::DrawBoard()
 
 bool Board::AddPoint(string &input, PlayerType &playerType)
 {
+	if (input == "" || input.length() == 0)
+		return false;
+
 	int letter = input[0] - 65;
 	int number = input[1] - '0';
 	curPlayerType = playerType;
@@ -98,12 +101,130 @@ bool Board::AddPoint(string &input, PlayerType &playerType)
 		cout << endl;
 		cout << endl << "Modified Point: " << input[0] << number << " to " << board[number][letter] << endl;
 		//if (number == pseudoTop || number == pseudoBottom || letter == pseudoLeft || letter == pseudoRight)
-		if (isConnected(curPlayerType, number, letter))
+		if (IsConnected(curPlayerType, number, letter))
 			cout << "CONNECTED PLAYER" << curPlayerType << endl;
 		return true;
 	}
 	else
 		cout << "POINT IS OUT OF RANGE! Point: " << input[0] << number << endl;
+	return false;
+}
+
+void Board::ClearCheckboard() {
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			checkboard[i][j] = false;
+		}
+	}
+}
+
+bool Board::IsConnectedTopToDown() {
+	ClearCheckboard();
+	for (int x = 0; x < width; x++) {
+		if (RecursivelyCheckTopToDown(x, 0))
+			return true;
+	}
+	return false;
+}
+
+bool Board::IsConnectedLeftToRight() {
+	ClearCheckboard();
+	for (int y = 0; y < height; y++) {
+		if (RecursivelyCheckLeftToRight(0, y))
+			return true;
+	}
+	return false;
+}
+
+bool Board::RecursivelyCheckTopToDown(int x, int y) {
+
+	//Already has checked this path.
+	if (checkboard[x][y])
+		return false;
+
+	checkboard[x][y] = true;
+
+	//At the end of the width
+	if (x == width) {
+		return false;
+	}
+
+	//Check for correct character.
+	if (board[x][y] != 'o')
+		return false;
+	
+	//Has completed top to bottom column.
+	if (y == height - 1) {
+		return true;
+	}
+
+	//Recursively check all around the points.
+
+	if (RecursivelyCheckTopToDown(x, y + 1)) {
+		return true;
+	}
+	if (y != 0 && RecursivelyCheckTopToDown(x + 1, y)) {
+		return false;
+	}
+	if (x > 1) {
+		if (RecursivelyCheckTopToDown(x - 1, y) || RecursivelyCheckTopToDown(x - 1, y + 1)) {
+			return true;
+		}
+	}
+	if (y != 0) {
+		if (RecursivelyCheckTopToDown(x, y - 1)) {
+			return true;
+		}
+		if (y != 1 && RecursivelyCheckTopToDown(x + 1, y - 1))
+			return true;
+	}
+	return false;
+}
+
+bool Board::RecursivelyCheckLeftToRight(int x, int y) {
+
+	//Already has checked this path.
+	if (checkboard[x][y])
+		return false;
+
+	checkboard[x][y] = true;
+
+	//At the end of the height
+	if (y == height) {
+		return false;
+	}
+
+	//Check for correct character.
+	if (board[x][y] != 'x')
+		return false;
+
+	//Has completed left to right row.
+	if (x == width - 1) {
+		return true;
+	}
+
+	//Recursively check all around the points.
+
+
+	if (RecursivelyCheckLeftToRight(x + 1, y)) {
+		return true;
+	}
+	if (x != 0 && RecursivelyCheckLeftToRight(x, y + 1)) {
+		return false;
+	}
+	if (y > 1) {
+		if (RecursivelyCheckLeftToRight(x, y - 1) || RecursivelyCheckLeftToRight(x + 1, y - 1)) {
+			return true;
+		}
+	}
+	if (x != 0) {
+		if (RecursivelyCheckLeftToRight(x - 1, y)) {
+			return true;
+		}
+		if (x != 1 && RecursivelyCheckLeftToRight(x - 1, y + 1))
+			return true;
+	}
+
 	return false;
 }
 
@@ -140,95 +261,16 @@ bool Board::DeletePreviousPoint(int &playerNumber)
 	return false;
 }
 
-bool Board::isConnected(int playerNumber, int x, int y)
+bool Board::IsConnected(int playerNumber, int x, int y)
 {
-	char playerIcon;
 	if (playerNumber == 1)
-		playerIcon = 'x';
-	else
-		playerIcon = 'o';
-	int directions = 4;
-	int count = 0;
-	for (int i = 0; i < directions; i++)
 	{
-		count++;
-		if (count > 20)
-			return false;
-		if (board[y][x + 1] == playerIcon)
-		{
-			if (x + 1 < width && x + 1 == pseudoRight)
-				return true;
-			/*if (xValues.size() > 0 && x + 1 != xValues.back())
-			{*/
-			i = 0;
-			/*xValues.pop_back();
-		}*/
-			xValues.push_back(x);
-			yValues.push_back(y);
-			x++;
-		}
-
-		if (y + 1 < height && board[y + 1][x] == playerIcon)
-		{
-			if (y + 1 == pseudoTop)
-				return true;
-			/*if (yValues.size() > 0 && y + 1 != yValues.back())
-			{*/
-			i = 0;
-			/*yValues.pop_back();
-		}*/
-			xValues.push_back(x);
-			yValues.push_back(y);
-			y++;
-		}
-
-		if (x - 1 > 0 && board[y][x - 1] == playerIcon)
-		{
-			if (x - 1 == pseudoLeft)
-				return true;
-			/*if (xValues.size() > 0 && x - 1 != xValues.back())
-			{*/
-			i = 0;
-			/*xValues.pop_back();
-		}*/
-			xValues.push_back(x);
-			yValues.push_back(y);
-			x--;
-		}
-		if (y - 1 > 0 && board[y - 1][x] == playerIcon)
-		{
-			if (y - 1 == pseudoBottom)
-				return true;
-			/*if (yValues.size() > 0 && y - 1 != yValues.back())
-			{*/
-			i = 0;
-			/*yValues.pop_back();
-		}*/
-			xValues.push_back(x);
-			yValues.push_back(y);
-			y--;
-		}
-
-		/*
-		if (equalCount > 1)
-		{
-		int xTemp = xValues.back();
-		int yTemp = yValues.back();
-		xValues.pop_back();
-		yValues.pop_back();
-		}
-		else if (equalCount == 1)
-		{
-		int xTemp = xValues.back();
-		int yTemp = yValues.back();
-		xValues.pop_back();
-		yValues.pop_back();
-		modifiedBoard[xTemp][yTemp] = '.';
-		if (xTemp == width || yTemp == height)
-		return true;
-		}*/
+		return IsConnectedLeftToRight();
 	}
-	return false;
+	else
+	{
+		return IsConnectedTopToDown();
+	}
 }
 
 void Board::pieRule()
