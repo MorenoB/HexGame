@@ -11,6 +11,7 @@ public:
 	enum PlayerType { HUMAN, AI };
 
 	void DrawBoard();
+	bool CanPlacePoint(std::string &input);
 	bool AddPoint(std::string &input, PlayerType &playerType);
 	bool DeletePreviousPoint(int &playerNumber);
 	void pieRule();
@@ -30,7 +31,7 @@ private:
 
 	void PrepareBoard();
 	void ClearCheckboard();
-	bool IsConnected(int playerNumber, int x, int y);
+	bool IsConnected(int playerNumber);
 	bool IsConnectedLeftToRight();
 	bool IsConnectedTopToDown();
 	bool RecursivelyCheckTopToDown(int x, int y);

@@ -3,16 +3,6 @@
 #include "game.h"
 #include "board.h"
 #include "concol.h"
-#include <iostream>
-#include <string>
-#include <algorithm> 
-#include <regex>
-#include <thread>
-#include <stdlib.h>
-
-using namespace std;
-using namespace eku;
-
 
 /* Game functions:
 + Mostly Acts like a controller.
@@ -26,6 +16,9 @@ using namespace eku;
 void Game::Start()
 {
 	board.DrawBoard();
+
+	thread worker(&Game::ChooseRandomPointWorkerThread, this);
+
 	Update();
 }
 
@@ -60,9 +53,9 @@ void Game::WaitForInput()
 	cout << endl;
 	cout << endl << "Please give a valid input ";
 
-	settextcolor(blue);
+	eku::settextcolor(eku::blue);
 	cout << "Player " << currentPlayer << endl;
-	settextcolor(white);
+	eku::settextcolor(eku::white);
 
 	cin >> input;
 
@@ -155,32 +148,51 @@ void Game::RedrawBoard()
 Contains all the randomAI decision making.*/
 void Game::randomAI()
 {
-	int loopCounter = 0;
-	while (loopCounter < C_AI_MAXLOOPS)
+	if (turnCounter == 2)
 	{
-		if (turnCounter == 2)
+		doPierule();
+		return;
+	}
+
+	string randomPoint = randomAIPoints.at(randomAIPoints.size() - 1);
+	randomAIPoints.pop_back();
+
+
+	if (board.AddPoint(randomPoint, playerType))
+	{
+		cout << "AI added point" << randomPoint << endl;
+		return;
+	}	
+
+	//We should not exit here!
+	cout << "AI was unable to pick a random point!" << endl;
+}
+
+void Game::ChooseRandomPointWorkerThread()
+{
+
+	while (aiWorkerThreadIsRunning)
+	{
+		if (randomAIPoints.size() > 1)
 		{
-			doPierule();
-			return;
+			this_thread::sleep_for(chrono::milliseconds(200));
+			continue;
 		}
 
-		string randomTurn;
-
+		mutex.try_lock();
+		
 		int i1 = rand() % 10;     // v2 in the range 0 to 11
 		int i2 = rand() % 10;     // v2 in the range 0 to 11
 
 		char input1 = "ABCDEFGHIJKLMNOP"[i1 - 1];
 		string input = input1 + to_string(i2);
 
-		if (board.AddPoint(input, playerType))
+		if (board.CanPlacePoint(input))
 		{
-			cout << "AI added point" << input << endl;
-			return;
+			randomAIPoints.push_back(input);
+			mutex.unlock();
 		}
 
-		loopCounter++;
+		//std::cout << __func__ << ": " << input << '\n';
 	}
-
-	//We should not exit here!
-	cout << "AI was unable to pick a random point!" << endl;
 }

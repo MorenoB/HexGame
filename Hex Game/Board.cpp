@@ -68,6 +68,19 @@ void Board::DrawBoard()
 
 }
 
+bool Board::CanPlacePoint(string &input)
+{
+	int letter = input[0] - 65;
+	int number = input[1] - '0';
+
+	if (board[number][letter] != '.')
+	{
+		return false;
+	}
+
+	return true;
+}
+
 bool Board::AddPoint(string &input, PlayerType &playerType)
 {
 	if (input == "" || input.length() == 0)
@@ -101,7 +114,7 @@ bool Board::AddPoint(string &input, PlayerType &playerType)
 		cout << endl;
 		cout << endl << "Modified Point: " << input[0] << number << " to " << board[number][letter] << endl;
 		//if (number == pseudoTop || number == pseudoBottom || letter == pseudoLeft || letter == pseudoRight)
-		if (IsConnected(curPlayerType, number, letter))
+		if (IsConnected(curPlayerType))
 			cout << "CONNECTED PLAYER" << curPlayerType << endl;
 		return true;
 	}
@@ -261,7 +274,7 @@ bool Board::DeletePreviousPoint(int &playerNumber)
 	return false;
 }
 
-bool Board::IsConnected(int playerNumber, int x, int y)
+bool Board::IsConnected(int playerNumber)
 {
 	if (playerNumber == 1)
 	{
